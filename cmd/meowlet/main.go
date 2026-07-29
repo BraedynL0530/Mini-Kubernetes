@@ -1,1 +1,2 @@
-package meowlet
+package main
+// daemon for nodes(or cats)
