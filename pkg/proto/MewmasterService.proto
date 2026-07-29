@@ -1,0 +1,24 @@
+syntax = "proto3";
+option go_package = "./pb";
+package proto;
+
+service MewmasterService {
+
+}
+
+message RegisterCatsRequest {
+  string Name = 1;
+  string Ip = 2;
+
+}
+message RegisterCatResponse {
+  bool success = 1;
+}
+
+message CatHeartbeatRequest{
+  string Name = 1;
+}
+
+message CatHeartbeatResponse {
+  bool acknowledged = 1;
+}

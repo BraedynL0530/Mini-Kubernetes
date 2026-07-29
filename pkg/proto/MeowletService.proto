@@ -1,0 +1,28 @@
+syntax = "proto3";
+option go_package = "./pb";
+package proto;
+
+service MeowletService {
+  rpc StartPaw(StartPawRequest) returns (StartPawResponse);
+  rpc StopPaw(StopPawRequest) returns (StopPawResponse);
+}
+
+
+message StartPawRequest {
+  string paw_id = 1;
+  string image = 2;
+  double cpu_limit = 3;
+  double memory_limit = 4;
+}
+
+message StartPawResponse{
+  bool success = 1;
+}
+
+message StopPawRequest{
+  string paw_id =1;
+}
+
+message StopPawResponse{
+  bool success = 1;
+}

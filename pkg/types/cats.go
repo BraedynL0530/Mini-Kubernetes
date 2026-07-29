@@ -4,8 +4,14 @@ import "time"
 
 type Cat struct {
 	Name string `json:"name"`
-	IpAdress string `json:"ip_adress"`
+	IpAddress string `json:"ip_address"`
 	Port int `json:"port"` // gRpc port
-	Status string `json:"status"` //Active, Alseep, Dead
+
+	TotalCpu float64 `json:"total_cpu"`
+    TotalRam int64   `json:"total_ram"`
+	RamUsage float64 `json:ram_usage`
+	CpuUsage float64 `json:Cpu_Usage`
+
+	Status string `json:"status"` //Active, Asleep, Dead
 	LastHeartbeat time.Time `json:"last_heartbeat"`
 }
