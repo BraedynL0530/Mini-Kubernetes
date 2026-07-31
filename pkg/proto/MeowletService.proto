@@ -12,7 +12,7 @@ message StartPawRequest {
   string paw_id = 1;
   string image = 2;
   double cpu_limit = 3;
-  double memory_limit = 4;
+  int64 memory_limit = 4;
 }
 
 message StartPawResponse{
