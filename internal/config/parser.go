@@ -6,16 +6,17 @@ type Container struct {
 }
 
 type PawConfig struct {
-	Name       string      `yaml:"name"`
-	Containers []Container `yaml:"containers"`
-	Label      string      `yaml:"label"` // checked docs labels are how u organize, label matches with cat label and becomes like nodes pod/child.
+	Name         string      `yaml:"name"`
+	Containers   []Container `yaml:"containers"`
+	NodeName     string      `yaml:"nodeName"`     // checked docs labels are how u organize, label matches with cat label and becomes like nodes pod/child.
+	DesiredState int64       `yaml:"desiredState"` // how many pods
+	CatSurge     int64       `yaml:"catSurge"`     // max over desired state temp
 }
 
 type CatConfig struct {
-	Name  string  `yaml:"name"`
-	Cpus  float64 `yaml:"cpus"`
-	Ram   int64   `yaml:"ram"`
-	Label string  `yaml:"label"` // dunno how to implement  it yet tho :3
+	Name string  `yaml:"name"`
+	Cpus float64 `yaml:"cpus"`
+	Ram  int64   `yaml:"ram"`
 }
 
 type ClusterConfig struct {
