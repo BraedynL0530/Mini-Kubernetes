@@ -42,19 +42,3 @@ func (f fakeDocker) Restart(ctx context.Context, image string) (string, error) {
 func (f fakeDocker) Kill(ctx context.Context, image string) (string, error) {
 	return "killing paw-123... x_x", nil
 }
-
-//var cli *client.Client
-
-func initDocker() {
-
-}
-
-func startContainer() {
-
-}
-
-func stopContainer() {}
-
-func removeContainer() {}
-
-//ToDo: grow a brain
