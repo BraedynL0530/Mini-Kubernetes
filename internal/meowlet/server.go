@@ -7,19 +7,42 @@ import (
 	"github.com/BraedynL0530/Mini-Kubernetes/internal/dockerx"
 	"github.com/BraedynL0530/Mini-Kubernetes/pkg/proto/pb"
 	"github.com/BraedynL0530/Mini-Kubernetes/pkg/types"
+	"github.com/moby/moby/api/types/container"
 )
 
 type Server struct {
-	docker dockerx.Engine
+	docker dockerx.Engine // do i even need pull image? well see later choom.
 	paw    map[string]*types.Paw
 	mu     sync.Mutex
 }
 
-func (s *Server) StartPaw(ctx *context.Context, req *pb.StartPawRequest) (resp *pb.StartPawResponse, err error) {
-	container, err := s.docker.Create(ctx, req.Image, config)
+func (s *Server) StartPaw(ctx context.Context, req *pb.StartPawRequest) (resp *pb.StartPawResponse, err error) {
+	config := container.HostConfig{}
+	paw, err := s.docker.Create(ctx, req.Image, config) // paw is container i just cannot use container keyword already!
+
 	if err != nil {
 		return nil, err
 	}
-	s.docker.Start(ctx, container)
+	s.docker.Start(ctx, paw)
+
+	resp = &pb.StartPawResponse{Success: true}
 	return resp, nil
 }
+
+func (s *Server) StopPaw(ctx context.Context, req *pb.StopPawRequest) (resp *pb.StopPawResponse, err error) {
+	_, err = s.docker.Stop(ctx, req.PawId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = s.docker.Kill(ctx, req.PawId)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &pb.StopPawResponse{Success: true}
+	return resp, nil
+}
+
+// why am i talking to myself in third person?

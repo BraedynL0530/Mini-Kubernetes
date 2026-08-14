@@ -20,7 +20,7 @@ message StartPawResponse{
 }
 
 message StopPawRequest{
-  string paw_id =1;
+  string paw_id =1; // add grace periord NEXT to give a graceful stop before murdering the paw
 }
 
 message StopPawResponse{

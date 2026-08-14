@@ -12,9 +12,8 @@ type Engine interface {
 	Pull(ctx context.Context, image string) (string, error)
 	Create(ctx context.Context, image string, hostConfig container.HostConfig) (string, error)
 	Start(ctx context.Context, container string) (string, error)
-	Stop(ctx context.Context, container string) (string, error)    // may need to add a timeout for chill shutdown
-	Restart(ctx context.Context, container string) (string, error) // maybe on sick containers? or after a good stop? idk yet just figured id add it(40s prehaps)
-	Kill(ctx context.Context, container string) (string, error)    // after no heartbeat for 300 seconds(5 minutes kill that boy and delte em)
+	Stop(ctx context.Context, container string) (string, error) // may need to add a timeout for chill shutdown
+	Kill(ctx context.Context, container string) (string, error) // after no heartbeat for 300 seconds(5 minutes kill that boy and delte em)
 }
 
 type fakeDocker struct{}
@@ -33,10 +32,6 @@ func (f fakeDocker) Start(ctx context.Context, image string) (string, error) {
 
 func (f fakeDocker) Stop(ctx context.Context, image string) (string, error) {
 	return "stopping paw-123...", nil
-}
-
-func (f fakeDocker) Restart(ctx context.Context, image string) (string, error) {
-	return "restarting paw-123...", nil
 }
 
 func (f fakeDocker) Kill(ctx context.Context, image string) (string, error) {
