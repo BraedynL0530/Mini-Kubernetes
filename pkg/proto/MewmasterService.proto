@@ -18,7 +18,7 @@ message RegisterCatResponse {
   bool success = 1;
 }
 
-message CatHeartbeatRequest{
+message CatHeartbeatRequest{ //ADD STATUS, LAST HEARTBEAT(if needed), and defintly need
   string name = 1;
   double cpu_usage = 2;
   int64 ram_usage = 3;

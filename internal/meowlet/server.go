@@ -36,7 +36,7 @@ func (s *Server) StopPaw(ctx context.Context, req *pb.StopPawRequest) (resp *pb.
 		return nil, err
 	}
 
-	_, err = s.docker.Kill(ctx, req.PawId)
+	_, err = s.docker.Kill(ctx, req.PawId) //Note: id  is seperate from container id unless i change it to match
 	if err != nil {
 		return nil, err
 	}
