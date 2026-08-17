@@ -10,6 +10,8 @@ import (
 	"github.com/moby/moby/api/types/container"
 )
 
+//TODO: figure out actual id! req.pawid LIKELY WONT WORK!!!!!
+
 type Server struct {
 	docker dockerx.Engine // do i even need pull image? well see later choom.
 	paw    map[string]*types.Paw

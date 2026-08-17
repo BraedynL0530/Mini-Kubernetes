@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	tea "charm.land/bubbletea/v2"
+	"github.com/BraedynL0530/Mini-Kubernetes/pkg/types"
 )
 
 //ToDO: add screens, finish sub menus and options, this is skeleton untill i have actual functions
@@ -18,7 +20,9 @@ const (
 
 // Bubble Tea Docs i stole and edited
 type model struct {
-	choices       []string         // items on the to-do list
+	header        string
+	textIcon      []string
+	choices       []types.Cat
 	cursor        int              // which to-do list item our cursor is pointing at
 	selected      map[int]struct{} // which to-do items are selected
 	getSubChoices []string         // items on the get sub-menu
@@ -28,9 +32,18 @@ type model struct {
 
 // add a method for like -r path/to/ymal file
 
+//re adding comments: again mainly copied from bubble tui
+
 func initialModel() model {
 	return model{
-		choices:       []string{"apply", "get", "delete"},
+		header: "                  Meowbernetes", //adjust whitespace
+		textIcon: []string{
+			"       |\\      _,,,---,,_",
+			"ZZZzz  /,`.-'`'    -.  ;-;;,_",
+			"      |,4-  ) )-,_. ,\\ (  `'-'",
+			"       '---''(_/--'  `- '\\_)",
+		},
+		choices:       []types.Cat{}, // Todo: make sure to only have name and status. possibly
 		getSubChoices: []string{"fetch logs", "fetch metrics", "back to main"},
 
 		// A map which indicates which choices are selected. We're using
@@ -86,7 +99,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() tea.View {
 	// The header
-	s := "Meowbernetes  \n\n What would you like to do?\n\n"
+	s := strings.Join(m.textIcon, "\n") + "\n" + m.header
 
 	// Iterate over our choices
 	for i, choice := range m.choices {
