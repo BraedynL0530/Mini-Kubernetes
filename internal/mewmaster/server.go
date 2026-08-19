@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/BraedynL0530/Mini-Kubernetes/pkg/proto/pb"
+	"github.com/BraedynL0530/Mini-Kubernetes/pkg/types"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -13,9 +14,8 @@ type Server struct {
 }
 
 func (s *Server) RegisterCat(ctx context.Context, req *pb.RegisterCatsRequest) (resp *pb.RegisterCatResponse, err error) {
-	nodeName := req.Name
 
-	err = s.rbd.HSet(ctx, nodeName, map[string]interface{}{
+	err = s.rbd.HSet(ctx, req.Name, map[string]interface{}{
 		"ip":       req.Ip,
 		"totalCpu": req.TotalCpu,
 		"totalRam": req.TotalRam,
@@ -23,8 +23,7 @@ func (s *Server) RegisterCat(ctx context.Context, req *pb.RegisterCatsRequest) (
 	}).Err()
 
 	if err != nil {
-		resp = &pb.RegisterCatResponse{Success: false}
-		return resp, err
+		return nil, err
 	}
 
 	resp = &pb.RegisterCatResponse{Success: true}
@@ -33,17 +32,11 @@ func (s *Server) RegisterCat(ctx context.Context, req *pb.RegisterCatsRequest) (
 
 func (s *Server) CatHeartbeat(ctx context.Context, req *pb.CatHeartbeatRequest) (resp *pb.CatHeartbeatResponse, err error) {
 
-	err = s.rbd.HSet(ctx, req.Name, map[string]interface{}{
-		"name":     req.Name,
-		"cpuUsage": req.CpuUsage,
-		"ramUsage": req.RamUsage,
-		// add status and time since last heartbeat later
-	}).Err()
+	err = s.rbd.HSet(ctx, req.Name, structs.Map[string](types.Cat)).Err() // err fix this with package or helper func still needs time since last heartbeat
 	if err != nil {
-		resp = &pb.CatHeartbeatResponse{Acknowledged: false}
-		return resp, err
+		return nil, err
 	}
-	err = s.rbd.Expire(ctx, req.Name, 15*time.Second).Err()
+	err = s.rbd.Expire(ctx, req.Name, 300*time.Second).Err()
 	if err != nil {
 		//dunno if ill do that or not beccause it needs an error but maybe log instead of return !
 		return nil, err

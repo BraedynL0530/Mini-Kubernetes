@@ -21,7 +21,7 @@ type PawConfig struct {
 }
 
 type CatConfig struct {
-	Name string  `yaml:"name"`
+	Name string  `yaml:"name"` // i wanna remove this for auto generated names, refer to markdown on how i decieded to do this
 	Cpus float64 `yaml:"cpus"`
 	Ram  int64   `yaml:"ram"`
 }
@@ -29,6 +29,7 @@ type CatConfig struct {
 type ClusterConfig struct {
 	PawConfigs  []PawConfig `yaml:"paw"`
 	CatsConfigs []CatConfig `yaml:"cat"`
+	// add concurency part in ymal
 }
 
 func Parse(filePath string) (*ClusterConfig, error) {

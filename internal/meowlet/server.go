@@ -19,13 +19,12 @@ type Server struct {
 }
 
 func (s *Server) StartPaw(ctx context.Context, req *pb.StartPawRequest) (resp *pb.StartPawResponse, err error) {
-	config := container.HostConfig{}
+	config := container.HostConfig{}                    // add ram and cpu limit here
 	paw, err := s.docker.Create(ctx, req.Image, config) // paw is container i just cannot use container keyword already!
-
+	s.docker.Start(ctx, paw)
 	if err != nil {
 		return nil, err
 	}
-	s.docker.Start(ctx, paw)
 
 	resp = &pb.StartPawResponse{Success: true}
 	return resp, nil
